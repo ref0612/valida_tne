@@ -12,28 +12,103 @@
       align-items: center;
       background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
       font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
     }
     .container {
       background: #fff;
       padding: 2.5rem 2rem 2rem 2rem;
-      border-radius: 18px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13), 0 0px 0px 0px #5b9df9;
       min-width: 340px;
+      max-width: 95vw;
       display: flex;
       flex-direction: column;
       align-items: center;
+      animation: fadeIn 0.7s cubic-bezier(.39,.575,.56,1.000);
+      position: relative;
+      transition: box-shadow 0.3s;
+    }
+    .container:focus-within {
+      box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13), 0 0px 0px 4px #5b9df9;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .logo {
+      width: 54px;
+      height: 54px;
+      margin-bottom: 0.7rem;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(91,157,249,0.10);
+      background: linear-gradient(135deg, #5b9df9 0%, #3c7fd9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo svg {
+      width: 32px;
+      height: 32px;
+      display: block;
     }
     h2 {
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.7rem;
       color: #2d3a4b;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 1px;
+      font-size: 1.5em;
+    }
+    .subtitle {
+      color: #6a7a90;
+      font-size: 1em;
+      margin-bottom: 1.5rem;
+      text-align: center;
     }
     .input-group {
       display: flex;
       width: 100%;
       gap: 0.5rem;
       margin-bottom: 1.5rem;
+      position: relative;
+      min-height: 48px;
+    }
+    .input-group .dodge {
+      position: relative;
+      left: 0;
+      top: 0;
+      transition: left 0.18s cubic-bezier(.7,-0.2,.7,1.5), top 0.18s cubic-bezier(.7,-0.2,.7,1.5);
+    }
+    .input-group .dodge-left {
+      left: -80px;
+      top: 0;
+    }
+    .input-group .dodge-right {
+      left: 80px;
+      top: 0;
+    }
+    .input-group .dodge-up {
+      top: -40px;
+      left: 0;
+    }
+    .input-group .dodge-down {
+      top: 40px;
+      left: 0;
+    }
+    .input-group .dodge-up-left {
+      left: -60px;
+      top: -30px;
+    }
+    .input-group .dodge-up-right {
+      left: 60px;
+      top: -30px;
+    }
+    .input-group .dodge-down-left {
+      left: -60px;
+      top: 30px;
+    }
+    .input-group .dodge-down-right {
+      left: 60px;
+      top: 30px;
     }
     input[type="text"] {
       flex: 1;
@@ -42,10 +117,29 @@
       border-radius: 8px;
       font-size: 1.1em;
       outline: none;
-      transition: border 0.2s;
+      transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+      background: #f7faff;
+      box-shadow: 0 1px 4px rgba(91,157,249,0.04);
+      letter-spacing: 0.5px;
+      caret-color: #5b9df9;
     }
     input[type="text"]:focus {
       border-color: #5b9df9;
+      box-shadow: 0 2px 8px rgba(91,157,249,0.13);
+      background: #fff;
+    }
+    input[type="text"].input-error {
+      border-color: #e14d4d;
+      background: #fff0f0;
+      color: #e14d4d;
+      animation: shake 0.2s linear 1;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
     }
     button {
       padding: 0.7em 1.5em;
@@ -58,10 +152,26 @@
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(91,157,249,0.08);
       transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      position: relative;
+      z-index: 1;
     }
-    button:hover {
+    button svg {
+      width: 18px;
+      height: 18px;
+      margin-left: 0.1em;
+      margin-bottom: 1px;
+      transition: transform 0.2s;
+    }
+    button:hover svg {
+      transform: scale(1.18) rotate(-8deg);
+    }
+    button:hover, button:focus {
       background: linear-gradient(90deg, #3c7fd9 0%, #5b9df9 100%);
       transform: translateY(-2px) scale(1.03);
+      outline: none;
     }
     #resultado {
       margin-top: 1.2rem;
@@ -72,6 +182,9 @@
       align-items: center;
       justify-content: center;
       gap: 0.5em;
+      width: 100%;
+      text-align: center;
+      transition: color 0.2s, background 0.2s;
     }
     .valida {
       color: #1bb76e;
@@ -82,6 +195,7 @@
       align-items: center;
       gap: 0.4em;
       box-shadow: 0 1px 4px rgba(27,183,110,0.07);
+      font-size: 1.1em;
     }
     .novalida {
       color: #e14d4d;
@@ -92,6 +206,7 @@
       align-items: center;
       gap: 0.4em;
       box-shadow: 0 1px 4px rgba(225,77,77,0.07);
+      font-size: 1.1em;
     }
     .spinner {
       border: 3px solid #e3eafc;
@@ -107,22 +222,100 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    @media (max-width: 480px) {
+      .container {
+        min-width: unset;
+        width: 98vw;
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+      }
+      h2 {
+        font-size: 1.1em;
+      }
+      .input-group {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="logo">
+      <svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="16" fill="#fff"/><path d="M10 22V10h12v12H10zm2-2h8V12h-8v8z" fill="#5b9df9"/></svg>
+    </div>
     <h2>Verificar Estado de TNE</h2>
+    <div class="subtitle">Consulta si tu Tarjeta Nacional Estudiantil está registrada y vigente.</div>
     <div class="input-group">
-      <input type="text" id="cardNumber" placeholder="Ingrese número de TNE" onkeydown="if(event.key==='Enter'){verificarTNE()}" autocomplete="off" />
-      <button onclick="verificarTNE()">Verificar</button>
+      <input type="text" id="cardNumber" placeholder="Ingrese número de TNE" onkeydown="if(event.key==='Enter'){verificarTNE()}" autocomplete="off" maxlength="12" />
+      <button id="verificarBtn" class="dodge" onclick="verificarTNE()">
+        <span>Verificar</span>
+        <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#fff"/><path d="M7 10.5L10 13.5L15 8.5" stroke="#3c7fd9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
     <div id="resultado"></div>
-  </div>
+    <div style="margin-top:1.2em;color:#b6c6e0;font-size:0.98em;text-align:center;letter-spacing:0.5px;">
+      <span style="vertical-align:middle;opacity:0.7;">Hecho con
+        <svg width="16" height="16" viewBox="0 0 20 20" style="margin:0 2px;vertical-align:middle;animation:beat 1.2s infinite alternate;"><path d="M10 18s-6-4.35-6-8.5A4.5 4.5 0 0 1 10 5a4.5 4.5 0 0 1 6 4.5C16 13.65 10 18 10 18z" fill="#e14d4d"/></svg>
+        por <b>F. Perez</b> &middot; 2025</span>
+    </div>
+    <style>
+      @keyframes beat {
+        to { transform: scale(1.18); filter: brightness(1.2); }
+      }
+    </style>
+    <script>
+    function setInputError(isError) {
+      const input = document.getElementById('cardNumber');
+      if (isError) {
+        input.classList.add('input-error');
+      } else {
+        input.classList.remove('input-error');
+      }
+    }
 
-  <script>
+    // Efecto esquivar botón si input vacío
+    (function() {
+      const btn = document.getElementById('verificarBtn');
+      const input = document.getElementById('cardNumber');
+      const classes = [
+        'dodge-left', 'dodge-right', 'dodge-up', 'dodge-down',
+        'dodge-up-left', 'dodge-up-right', 'dodge-down-left', 'dodge-down-right'
+      ];
+      let lastClass = '';
+      function dodge(e) {
+        if (!input.value.trim()) {
+          // Elige una clase aleatoria distinta a la anterior
+          let idx;
+          do {
+            idx = Math.floor(Math.random() * classes.length);
+          } while (classes[idx] === lastClass);
+          btn.classList.remove(...classes);
+          btn.classList.add(classes[idx]);
+          lastClass = classes[idx];
+          setTimeout(() => {
+            btn.classList.remove(...classes);
+          }, 350);
+          e.preventDefault();
+        }
+      }
+      btn.addEventListener('mouseenter', dodge);
+      btn.addEventListener('touchstart', dodge);
+      btn.addEventListener('click', function(e) {
+        if (!input.value.trim()) {
+          dodge(e);
+        }
+      });
+    })();
+
     async function verificarTNE() {
       const cardNumber = document.getElementById('cardNumber').value.trim();
       const resultado = document.getElementById('resultado');
+      setInputError(false);
+      if (!cardNumber || cardNumber.length < 7) {
+        setInputError(true);
+        resultado.innerHTML = '<span class="novalida">Ingrese un número de TNE válido</span>';
+        return;
+      }
       resultado.innerHTML = '<span class="spinner"></span>Consultando...';
 
       try {
@@ -140,17 +333,35 @@
         if (response.ok) {
           const data = await response.json();
           if (data && data.valid === true) {
+            setInputError(false);
             resultado.innerHTML = '<span class="valida">TNE válida <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="vertical-align:middle"><circle cx="10" cy="10" r="10" fill="#1bb76e"/><path d="M6 10.5L9 13.5L14 8.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
           } else {
+            setInputError(true);
             resultado.innerHTML = '<span class="novalida">TNE no válida <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="vertical-align:middle"><circle cx="10" cy="10" r="10" fill="#e14d4d"/><path d="M7 7L13 13M13 7L7 13" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>';
           }
         } else {
+          setInputError(true);
           resultado.innerHTML = '<span class="novalida">TNE no válida <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="vertical-align:middle"><circle cx="10" cy="10" r="10" fill="#e14d4d"/><path d="M7 7L13 13M13 7L7 13" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>';
         }
       } catch (error) {
+        setInputError(true);
         resultado.innerHTML = '<span class="novalida">Error al consultar la API</span>';
       }
     }
-  </script>
+    // Placeholder animado
+    const input = document.getElementById('cardNumber');
+    const placeholders = [
+      'Ingrese número de TNE',
+      'Ej: 222399852',
+      'Solo números, sin guiones',
+      'Verifique su TNE aquí'
+    ];
+    let phIndex = 0;
+    setInterval(() => {
+      phIndex = (phIndex + 1) % placeholders.length;
+      input.setAttribute('placeholder', placeholders[phIndex]);
+    }, 3500);
+    </script>
+  </div>
 </body>
 </html>
