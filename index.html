@@ -4,22 +4,126 @@
   <meta charset="UTF-8">
   <title>Verificar Estado TNE</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    input, button { font-size: 1.2em; }
-    #resultado { margin-top: 20px; font-weight: bold; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .container {
+      background: #fff;
+      padding: 2.5rem 2rem 2rem 2rem;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      min-width: 340px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 {
+      margin-bottom: 1.5rem;
+      color: #2d3a4b;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .input-group {
+      display: flex;
+      width: 100%;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.7em 1em;
+      border: 1.5px solid #b6c6e0;
+      border-radius: 8px;
+      font-size: 1.1em;
+      outline: none;
+      transition: border 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: #5b9df9;
+    }
+    button {
+      padding: 0.7em 1.5em;
+      background: linear-gradient(90deg, #5b9df9 0%, #3c7fd9 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(91,157,249,0.08);
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #3c7fd9 0%, #5b9df9 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    #resultado {
+      margin-top: 1.2rem;
+      font-size: 1.18em;
+      font-weight: 500;
+      min-height: 2.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+    }
+    .valida {
+      color: #1bb76e;
+      background: #eafaf2;
+      border-radius: 6px;
+      padding: 0.3em 0.8em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+      box-shadow: 0 1px 4px rgba(27,183,110,0.07);
+    }
+    .novalida {
+      color: #e14d4d;
+      background: #fff0f0;
+      border-radius: 6px;
+      padding: 0.3em 0.8em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+      box-shadow: 0 1px 4px rgba(225,77,77,0.07);
+    }
+    .spinner {
+      border: 3px solid #e3eafc;
+      border-top: 3px solid #5b9df9;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      animation: spin 1s linear infinite;
+      margin-right: 0.7em;
+      display: inline-block;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
-  <h2>Verificar Estado de TNE</h2>
-  <input type="text" id="cardNumber" placeholder="Ingrese número de TNE" />
-  <button onclick="verificarTNE()">Verificar</button>
-  <div id="resultado"></div>
+  <div class="container">
+    <h2>Verificar Estado de TNE</h2>
+    <div class="input-group">
+      <input type="text" id="cardNumber" placeholder="Ingrese número de TNE" onkeydown="if(event.key==='Enter'){verificarTNE()}" autocomplete="off" />
+      <button onclick="verificarTNE()">Verificar</button>
+    </div>
+    <div id="resultado"></div>
+  </div>
 
   <script>
     async function verificarTNE() {
       const cardNumber = document.getElementById('cardNumber').value.trim();
       const resultado = document.getElementById('resultado');
-      resultado.textContent = 'Consultando...';
+      resultado.innerHTML = '<span class="spinner"></span>Consultando...';
 
       try {
         const response = await fetch('https://prod-tne.kupos.cl/api/v1/external/tne/get-card-details', {
@@ -36,15 +140,15 @@
         if (response.ok) {
           const data = await response.json();
           if (data && data.valid === true) {
-            resultado.textContent = 'TNE válida ✅';
+            resultado.innerHTML = '<span class="valida">TNE válida <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="vertical-align:middle"><circle cx="10" cy="10" r="10" fill="#1bb76e"/><path d="M6 10.5L9 13.5L14 8.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
           } else {
-            resultado.textContent = 'TNE no válida ❌';
+            resultado.innerHTML = '<span class="novalida">TNE no válida <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="vertical-align:middle"><circle cx="10" cy="10" r="10" fill="#e14d4d"/><path d="M7 7L13 13M13 7L7 13" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>';
           }
         } else {
-          resultado.textContent = 'TNE no válida ❌';
+          resultado.innerHTML = '<span class="novalida">TNE no válida <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="vertical-align:middle"><circle cx="10" cy="10" r="10" fill="#e14d4d"/><path d="M7 7L13 13M13 7L7 13" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>';
         }
       } catch (error) {
-        resultado.textContent = 'Error al consultar la API';
+        resultado.innerHTML = '<span class="novalida">Error al consultar la API</span>';
       }
     }
   </script>
