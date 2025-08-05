@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificar Estado TNE</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input, button { font-size: 1.2em; }
+    #resultado { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Verificar Estado de TNE</h2>
+  <input type="text" id="cardNumber" placeholder="Ingrese número de TNE" />
+  <button onclick="verificarTNE()">Verificar</button>
+  <div id="resultado"></div>
+
+  <script>
+    async function verificarTNE() {
+      const cardNumber = document.getElementById('cardNumber').value.trim();
+      const resultado = document.getElementById('resultado');
+      resultado.textContent = 'Consultando...';
+
+      try {
+        const response = await fetch('https://prod-tne.kupos.cl/api/v1/external/tne/get-card-details', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-client-name': 'URBAN_BUS',
+            'x-client-key': '90840856141878188075943717361345',
+            'User-Agent': 'PostmanRuntime/7.45.0'
+          },
+          body: JSON.stringify({ card_number: cardNumber })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.valid === true) {
+            resultado.textContent = 'TNE válida ✅';
+          } else {
+            resultado.textContent = 'TNE no válida ❌';
+          }
+        } else {
+          resultado.textContent = 'TNE no válida ❌';
+        }
+      } catch (error) {
+        resultado.textContent = 'Error al consultar la API';
+      }
+    }
+  </script>
+</body>
+</html>
