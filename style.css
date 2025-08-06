@@ -1,0 +1,112 @@
+/* Archivo principal de estilos CSS */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  height: 100vh;
+}
+
+.container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative; /* Asegura que el contenedor tenga posición relativa */
+}
+
+.icon-container {
+  margin-bottom: 1rem;
+}
+
+.app-icon {
+  width: 80px;
+  height: 80px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #2d3a4b;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #6a7a90;
+  margin-bottom: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 0.8rem;
+  border: 1px solid #b6c6e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+  border-color: #5b9df9;
+}
+
+button {
+  padding: 0.7em 1.5em;
+  background: linear-gradient(90deg, #5b9df9 0%, #3c7fd9 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(91,157,249,0.08);
+  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  position: relative;
+  z-index: 1;
+}
+
+button svg {
+  width: 18px;
+  height: 18px;
+  margin-left: 0.1em;
+  margin-bottom: 1px;
+  transition: transform 0.2s;
+}
+
+button:hover svg {
+  transform: scale(1.18) rotate(-8deg);
+}
+
+button:hover, button:focus {
+  background: linear-gradient(90deg, #3c7fd9 0%, #5b9df9 100%);
+  transform: translateY(-2px) scale(1.03);
+  outline: none;
+}
+
+#resultado {
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+@keyframes beat {
+  to {
+    transform: scale(1.18);
+    filter: brightness(1.2);
+  }
+}
